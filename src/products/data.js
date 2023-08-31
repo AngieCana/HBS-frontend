@@ -12,7 +12,7 @@ const data = {
       description: 'Albedo Bushiroad High Grade Sleeves - Overlord IV Vol. 3522. 75ct Sleeves , standard size (weiss, pokemon, Magic the gathering, One Piece)'
     },
     {
-      name: 'Shalltear Bushiroad Sleeves  Vol.3523 Overlord IV',
+      name: 'Shalltear Bushiroad Sleeves - Overlord IV Vol.3523',
       slug: 'shalltear-sleeves-3523',
       category: 'card sleeve',
       image: '/images/shalltear-3523.jpg',
@@ -32,7 +32,7 @@ const data = {
       description: 'Albedo Bushiroad Rubber Mat Collection V2 Vol.595 Overlord IV ED Ver. Playmat.'
     },
     {
-      name: 'Overlord Bushiroad Sleeves Vol.3520',
+      name: 'Overlord IV Key Visual Bushiroad Sleeves Vol.3520',
       slug: 'overlord-sleeves-3520',
       category: 'card sleeve',
       image: '/images/overlord-3250.jpg',
@@ -42,7 +42,7 @@ const data = {
       description: 'Overlord IV Key Visual Bushiroad Sleeve Collection High Grade Vol.3520.'
     },
     {
-      name: 'Albedo Pt. 2 Overlord IV Vol.3524',
+      name: 'Albedo Pt. 2 Overlord IV Bushiroad Sleeves Vol',
       slug: 'albedo-sleeves-3524',
       category: 'card sleeve',
       image: '/images/albedo-3524.jpg',

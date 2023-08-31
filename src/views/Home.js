@@ -1,7 +1,9 @@
 import React, { useEffect, useReducer, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import logger from "use-reducer-logger";
+import Product from "../components/Product";
+import { Helmet } from "react-helmet-async";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
 
 //function with 2 paramaters that holds a switch statement which checks if a speficic case is true and executes code upon that case.
 const reducer = (state, action) => {
@@ -19,7 +21,7 @@ const reducer = (state, action) => {
 
 export default function Home() {
   //changed hook from useState to useReducer that checks 3 parameters, also imported logger
-  const [{ loading, error, products }, dispatch] = useReducer(logger(reducer), {
+  const [{ loading, error, products }, dispatch] = useReducer((reducer), {
     products: [],
     loading: true,
     error: "",
@@ -43,36 +45,25 @@ export default function Home() {
   }, []);
   return (
     <div>
+      <Helmet>
+        <title>Hopes & Blessings Hobby Shop</title>
+      </Helmet>
       <h1>Top 8 Products</h1>
 
       <div className="products">
         {/* ternary operator that checks if products are loading, if they are, they will display a loading screen. if there is an error, they will display the error message. else, they will map through the items normally. */}
         {loading ? (
-          <div>Loading</div>
+          <div>
+            <LoadingBox />
+          </div>
         ) : error ? (
-          <div>{error}</div>
+          <div>
+            <MessageBox variant="danger">{error}</MessageBox>
+          </div>
         ) : (
           //mapping through the products array and assigning a className, a "slug"(identifier) a speficic link for the item, the item image, and the item name.
           products.map((product) => (
-            <div className="product" key={product.slug}>
-              <a href={`/products/${product.slug}`}>
-                <img src={product.image} alt={product.name} />
-              </a>
-              <div className="info-container">
-                <div className="name-container">
-                  {/* Import Link from react-router-dom */}
-                  <Link className="link" to={`/product/${product.slug}`}>
-                    <p>{product.name}</p>
-                  </Link>
-                </div>
-                <div className="price-container">
-                  <p>
-                    <strong>${product.price}</strong>
-                  </p>
-                  <button className="addcart">Add to Cart</button>
-                </div>
-              </div>
-            </div>
+            <Product product={product}></Product>
           ))
         )}
       </div>
