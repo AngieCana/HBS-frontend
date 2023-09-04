@@ -4,6 +4,7 @@ import Product from "../components/Product";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import { useLocation } from "react-router";
 
 //function with 2 paramaters that holds a switch statement which checks if a speficic case is true and executes code upon that case.
 const reducer = (state, action) => {
@@ -20,6 +21,7 @@ const reducer = (state, action) => {
 };
 
 export default function Home() {
+  const location = useLocation();
   //changed hook from useState to useReducer that checks 3 parameters, also imported logger
   const [{ loading, error, products }, dispatch] = useReducer((reducer), {
     products: [],
@@ -48,7 +50,8 @@ export default function Home() {
       <Helmet>
         <title>Hopes & Blessings Hobby Shop</title>
       </Helmet>
-      <h1>Top 8 Products</h1>
+      <h1 className="top8">Ranking: Top 8 Products</h1>
+      <h6 className="text-center">*Hello {location.state && location.state.id ? location.state.id : "Guest"} and welcome to the Home Page.*</h6>
 
       <div className="products">
         {/* ternary operator that checks if products are loading, if they are, they will display a loading screen. if there is an error, they will display the error message. else, they will map through the items normally. */}

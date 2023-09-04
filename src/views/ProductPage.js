@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useReducer, useEffect } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet-async"
@@ -7,6 +7,7 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { getError } from "../utilities/utils";
 import { Store } from "../Store";
+import { Button } from "react-bootstrap";
 
 //function with 2 paramaters that holds a switch statement which checks if a speficic case is true and executes code upon that case.
 const reducer = (state, action) => {
@@ -23,6 +24,7 @@ const reducer = (state, action) => {
 };
 
 function ProductPage() {
+  const navigate = useNavigate();
   const params = useParams();
   const { slug } = params;
 
@@ -48,10 +50,25 @@ function ProductPage() {
   }, [slug]);
 
 //defining the add to cart function
-const {state, dispatch: ctxDispatch} = useContext(Store);
-const addToCartHandler = () => {
-  ctxDispatch({type:'CART_ADD_ITEM', payload: {...product, quantity: 1}})
-}
+const { state, dispatch: ctxDispatch } = useContext(Store);
+const {cart} = state;
+  const addToCartHandler = async() => {
+    const existItem = cart.cartItems.find((x) => x._id === product._id)
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    //ajax request
+    const {data} = await axios.get(`/api/products/${product._id}`)
+    if(data.countInStock < quantity){
+      window.alert('Sorry, product is out of stock.')
+      return;
+    }
+    ctxDispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...product, quantity },
+    }
+    );
+    navigate('/cart')
+    console.log('Cart Button Clicked');
+  };
 
   return loading ? (
     <div>
@@ -78,15 +95,17 @@ const addToCartHandler = () => {
               <title>{product.name}</title>
             </Helmet>
             <h1>{product.name}</h1>
+            <hr/>
             <p>Price: ${product.price}</p>
             <p>Listed on: {product.listDate}</p>
             <p>Available: {product.countInStock} available.</p>
             <p>Description: {product.description}</p>
           </div>
+          <hr/>
           <div className="product-show-action">
             {/* if countInStock is greater than 0, a button will appear to allow the user to add to cart. Else, "Out of Stock will appear on the site." */}
           {product.countInStock > 0 ? (
-            <button onClick={addToCartHandler}className="show-button">Add to Cart</button>
+            <Button onClick={addToCartHandler}className="show-button" variant="primary">Add to Cart</Button>
           ) : (
             <p className="danger">Out of Stock</p>
           )}

@@ -25,14 +25,17 @@ body {
 
 main{
   flex: 1;
+  z-index: 1;
 }
 
+
 .products{
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   justify-content: center;
   flex-grow: 2;
   width: 100%;
+  margin-left: 5%;
 }
 
 .price-p{
@@ -46,6 +49,11 @@ main{
   width: 12.8rem;
   border: 1px solid grey;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  
 }
 
 .product img{
@@ -82,6 +90,7 @@ main{
   text-align: center;
   overflow: hidden;
   white-space: nowrap;
+  align-self: flex-end;
   
 
 }
@@ -133,6 +142,7 @@ li:active{
   background-color: black;
   color: white;
   font-weight: bold;
+  
 }
 
 .site-container{
@@ -149,11 +159,15 @@ li:active{
   align-items: center;
   margin-left: 18rem;
   margin-top: 2rem;
+  width: 100%;
+  justify-content: space-around;
 }
 
 .product-show-image {
   flex: 1;
   margin-right: 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .product-show-details {
@@ -193,4 +207,43 @@ li:active{
   padding: 0.2em 0.5em; /* Padding around the text */
   border-radius: 0.5em; /* Rounded corners */
   font-size: 12px; /* Adjust the font size as needed */
+}
+
+img.thumbnail{
+  height: 80px;
+}
+
+.small-container{
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+}
+
+.about-container{
+  text-align: center;
+  margin: 10%;
+}
+
+.border{
+  border: none;
+  padding: 20px;
+}
+
+.Navbar{
+  display: flex;
+  justify-content: space-around;
+}
+
+.top8{
+  font-family: 'Varela Round', sans-serif;
+  padding: 10px;
+}
+
+.shop-name, .c-text{
+  font-family: 'Varela Round', sans-serif;
+}
+
+h6{
+  text-align: center;
+  color: white;
 }
