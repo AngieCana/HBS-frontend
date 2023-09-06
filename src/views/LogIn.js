@@ -1,39 +1,54 @@
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
-import { useState } from "react";
+import { signIn, getUserFromSession } from "../utilities/SignIn-utils";
+import { AppContext } from "../context/appContext";
 
 export default function LogIn() {
   const history = useNavigate();
   const { search } = useLocation();
   const redirectInUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectInUrl ? redirectInUrl : "/";
-  // will allow for users to set email and password
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [error, setError] = useState("");
+  const [disabled, setDisabled] = useState(true);
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("/api/users/signin", {
-        email,
-        password,
-      });
-  
-      if (response.data === "exist") {
-        history("/", { state: { id: email } });
-      } else if (response.data === "notexist") {
-        alert('User has not signed up.');
-      } else {
-        alert('Unexpected response from the server.');
-      }
-    } catch (err) {
-      alert('An error occurred while logging in. Please try again later.');
-      console.error(err);
+  let { setUser } = useContext(AppContext);
+
+  useEffect(() => {
+    setDisabled(formState.email && formState.password ? false : true);
+  }, [formState]);
+
+  useEffect(() => {
+    const autoLogin = async () => {
+      await signIn({ email: "w@w", password: "qqq" });
+      // get session info (user)
+      let user = await getUserFromSession();
+      setUser(user);
     }
+    autoLogin()
+  }, []);
+
+  const handleChange = (event) => {
+    let propertyName = event.target.name;
+    setFormState({
+      ...formState,
+      [propertyName]: event.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    // LOGIN
+    // make a call to the server with this info and authenticate!
+    e.preventDefault();
+    await signIn(formState);
+    // get session info (user)
+    let user = await getUserFromSession();
+    setUser(user);
   };
 
   return (
@@ -42,13 +57,15 @@ export default function LogIn() {
         <title>Sign In</title>
       </Helmet>
       <h1 className="my-3">Log In</h1>
-      <Form className="border" onSubmit={submitHandler}>
+      <Form className="border" onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="email">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
             required
-            onChange={(e) => setEmail(e.target.value)}
+            name="email"
+            value={formState.email}
+            onChange={handleChange}
             placeholder="Email"
           />
         </Form.Group>
@@ -57,7 +74,9 @@ export default function LogIn() {
           <Form.Control
             type="password"
             required
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            value={formState.password}
+            onChange={handleChange}
             placeholder="Password"
           />
         </Form.Group>

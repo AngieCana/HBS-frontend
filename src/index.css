@@ -19,6 +19,34 @@ body {
   }
 }
 
+@media (max-width: 768px) {
+  /* Your responsive styles for tablets here */
+  .products{
+    flex-direction: column;
+    justify-content: center;
+
+  }
+  .product{
+    width: 30%;
+    margin: 0.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  /* Your responsive styles for smaller screens here */
+   /* Your responsive styles for tablets here */
+   .products{
+    flex-direction: column;
+    justify-content: center;
+
+  }
+  .product{
+    width: 30%;
+    margin: 0.5rem;
+  }
+}
+
+
 .name{
   padding: 10px;
 }
@@ -36,6 +64,7 @@ main{
   flex-grow: 2;
   width: 100%;
   margin-left: 5%;
+  gap: 3px;
 }
 
 .price-p{
@@ -46,7 +75,7 @@ main{
 
 .product{
   margin: 1rem;
-  width: 12.8rem;
+  width: 100%;
   border: 1px solid grey;
   box-sizing: border-box;
   display: flex;
@@ -147,6 +176,7 @@ li:active{
 
 .site-container{
   min-height: 100vh;
+  max-width: 200vh;
 }
 
 .img-large{
