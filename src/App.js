@@ -46,8 +46,10 @@ function App() {
                   <Nav.Link className="c-text">
                     Cart
                     {cart.cartItems.length > 0 && (
+                      //will display a red badge with the total quantity of items in the shopping cart. The badge will only be shown if there are items in the cart. 
                       <Badge pill bg="danger">
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                        {/* calculates the total quantity of items in the cart by summing up the quantity property of each item in cart.cartItems. The reduce() function takes two parameters: a (the accumulator, which accumulates the total quantity) and c (each item in the cart.cartItems array). The 0 at the end of the reduce() function is the initial value of the accumulator (a), which starts at 0. */}
                       </Badge>
                     )}
                   </Nav.Link>
